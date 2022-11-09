@@ -21,7 +21,6 @@ app.use(express.static('public'));
 app.get('/',(req,res)=>{
     res.render('login');
 });
-//hhhhhh kkkkkkkk
 
 app.get('/registration',(req,res)=>{
     console.log(69);
