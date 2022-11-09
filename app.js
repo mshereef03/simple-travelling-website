@@ -1,4 +1,4 @@
-// whats this ?
+// whats this ? idk man
 const { render } = require('ejs');
 const express = require('express');
 const mongoose = require('mongoose');
