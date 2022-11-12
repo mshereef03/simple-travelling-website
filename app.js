@@ -6,9 +6,19 @@ const User = require('./models/user');
 
 // express app
 const app = express();
+app.listen(3000);
 
-// connect to MongoDB and listening for requests
-mongoose.connect("mongodb://localhost:27017/UsersDB").then((result)=>{console.log('Connected to DB Succesfully');app.listen(3000);}).catch((err)=>{console.log(err);});
+// connect to MongoDB 
+ var MongoClient = require('mongodb').MongoClient;
+
+// MongoClient.connect("mongodb://localhost:27017", function (err, client) {
+//     if (err) throw err;
+//     var db = client.db('UsersDB');
+//     db.collection('users').insertOne({ username: 'bosssoss', password: 'Steve'});
+//     console.log('here');
+//      });
+    
+                
 
 // registering the view engine 
 app.set('view engine','ejs');
@@ -23,37 +33,42 @@ app.get('/',(req,res)=>{
 });
 
 app.get('/registration',(req,res)=>{
-    console.log(69);
     res.render('registration');
 });
 
-app.post('/login',(req,res)=>{
-    let bf = false;
-    const arr = User.find()
-    .then((result)=>{for(i in result){
-        if(result[i].username==req.body.username&&result[i].password==req.body.password){
-            res.render('home');
-            bf = true;
-    }
-    if(!bf)res.render('login');
-    }})
-    .catch((err)=>{console.log(err)});
+app.get('/home', (req,res)=>{
+    res.render('home');
 });
 
 app.post('/register',(req,res)=>{
-    const u = new User(req.body);
-    u.save()
-    .then((result)=>{
-        res.render('home');
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
+    var u = req.body;
+
+    MongoClient.connect("mongodb://localhost:27017", function (err, client) {
+    if (err) throw err;
+
+    const db = client.db('UsersDB');
+    const users = db.collection('users');
+
+    users.find().toArray((err, results) => {
+        var bool = true;
+        for (let i = 0; i < results.length; i++) {
+            if(results[i].username==u.username)bool=false;
+        }
+        if(bool){
+            users.insertOne({username: u.username, password: u.password});
+            res.redirect('/home');
+        }
+        else res.redirect('/registration');
+      });
+    
+     });
+    
 });
 
-app.get('/islands',(req,res)=>{
-res.render('islands');
-});
+
+
+
+
 
 
 
