@@ -9,16 +9,7 @@ const app = express();
 app.listen(3000);
 
 // connect to MongoDB 
- var MongoClient = require('mongodb').MongoClient;
-
-// MongoClient.connect("mongodb://localhost:27017", function (err, client) {
-//     if (err) throw err;
-//     var db = client.db('UsersDB');
-//     db.collection('users').insertOne({ username: 'bosssoss', password: 'Steve'});
-//     console.log('here');
-//      });
-    
-                
+ var MongoClient = require('mongodb').MongoClient;                
 
 // registering the view engine 
 app.set('view engine','ejs');
