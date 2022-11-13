@@ -13,6 +13,13 @@
             text-align: center;
             -webkit-text-stroke: 1px blue;
         }
+        p {
+            color: red;
+            text-align: center;
+            line-height: 130px;
+            font-size: 18px;
+    
+        }
         .cont {
             position:relative;
             left:600px;
@@ -42,6 +49,9 @@
             <input type="submit" id="simple_click" class="btn btn-secondary" value="Register"> <br>
         </form>
     </div>
+    <% if (locals.err) { %>
+        <p><%= err %></p>
+    <% } %>
 </body>
 
 </html>

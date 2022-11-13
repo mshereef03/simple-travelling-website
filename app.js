@@ -34,16 +34,15 @@ app.use(session({
 
 // routes
 app.get('/',(req,res)=>{
-    if(req.session.isAuth)return res.redirect('/home');
-    res.render('login');
+    res.redirect('/login');
 });
 
 app.get('/login',(req,res)=>{
-    res.render('login');
+    if(req.session.isAuth)return res.redirect('/home');
+    else res.render('login');
 });
 
 app.post('/login',(req,res)=>{
-    if(req.session.isAuth)return res.redirect('/home');
     var u = req.body;
 
     MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
@@ -59,8 +58,7 @@ app.post('/login',(req,res)=>{
         res.redirect('/home');
     }
     else{
-        res.redirect('/login')
-        //DISPLAY ERROR MESSAGE
+        res.render('login',{err: 'Incorrect username or password'});
     }
     
     } );
@@ -68,11 +66,6 @@ app.post('/login',(req,res)=>{
 
 app.get('/registration',(req,res)=>{
     res.render('registration');
-});
-
-app.get('/home', (req,res)=>{
-    if(req.session.isAuth)res.render('home');
-    else res.redirect('/login');
 });
 
 app.post('/register',(req,res)=>{
@@ -86,16 +79,23 @@ app.post('/register',(req,res)=>{
 
     var x = await users.findOne({username: u.username});
     if(x){
-        res.redirect('/registration');
-        //DISPLAY ERROR MESSAGE
+        res.render('registration',{err: 'Username already taken!'});
+    }
+    else if(u.username=='' || u.password==''){
+        res.render('registration',{err: 'Please enter a valid username and password'});
     }
     else{
         users.insertOne({username: u.username, password: u.password});
-        res.redirect('/login');
+        res.render('login',{msg: 'Registration was succesful!' });
     }
     
      });
     
+});
+
+app.get('/home', (req,res)=>{
+    if(req.session.isAuth)res.render('home');
+    else res.redirect('/login');
 });
 
 
