@@ -13,6 +13,16 @@
             text-align: center;
             -webkit-text-stroke: 1px blue;
         }
+        .list {
+            color: purple;
+            text-align: center;
+            font-size: 50px;
+        }
+        .fail {
+            color: white;
+            text-align: center;
+            font-size: 60px
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,4 +49,14 @@
         </div>
     </nav>
 </body>
+
+<% if(list.length==0){ %>
+   <p class = "fail"><%= err %></p>>
+  <% } else{ %>  
+    <% for (var i =0; i <list.length;  i++ ) { %>
+        <br/>  <p class="list"><a href="/<%= list[i] %>"> <%= list[i] %> </a></p>  
+        <%#  will output the numbers 1-10 %>
+        <% } %>
+ <% } %>
+
 </html>

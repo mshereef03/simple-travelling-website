@@ -353,6 +353,20 @@ app.get('/wanttogo',(req,res)=>{
     }
     else res.redirect('/login');
 });
+
+app.post('/search',(req,res)=>{
+    if(!req.session.isAuth)res.redirect('/login');
+    var x= req.body.Search.toLowerCase();
+    var list = [];
+    if('paris'.includes(x))list.push('paris');
+    if('santorini'.includes(x))list.push('santorini');
+    if('bali'.includes(x))list.push('bali');
+    if('rome'.includes(x))list.push('rome');
+    if('inca'.includes(x))list.push('inca');
+    if('annapurna'.includes(x))list.push('annapurna');
+    if(x.length==0)list=[];
+    res.render('searchresults',{list: list, err: 'Destination was not found !'});
+});
 // async and await ? 
 // clean up
 
