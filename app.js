@@ -367,6 +367,7 @@ app.post('/search',(req,res)=>{
     if(x.length==0)list=[];
     res.render('searchresults',{list: list, err: 'Destination was not found !'});
 });
+
 // async and await ? 
 // clean up
 
