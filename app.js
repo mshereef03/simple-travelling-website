@@ -2,14 +2,21 @@
 const { render } = require('ejs');;
 const express = require('express');
 const mongoose = require('mongoose');
-const User = require('./models/user');
+const session = require('express-session');
+const MongoDBSession = require('connect-mongodb-session')(session);
 
 // express app
 const app = express();
 app.listen(3000);
 
 // connect to MongoDB 
- var MongoClient = require('mongodb').MongoClient;                
+ var MongoClient = require('mongodb').MongoClient;   
+ 
+ // setting up session storage
+ const store = new MongoDBSession({
+    uri: 'mongodb://localhost:27017/UsersDB',
+    collection: 'userSessions'
+ });
 
 // registering the view engine 
 app.set('view engine','ejs');
@@ -17,10 +24,46 @@ app.set('view engine','ejs');
 // middleware
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
+app.use(session({
+    secret: 'gigi',
+    resave: false,
+    store: store,
+    saveUninitialized: false,
+    cookie: {maxAge: (1000*60*60)}
+}));
 
 // routes
 app.get('/',(req,res)=>{
+    if(req.session.isAuth)return res.redirect('/home');
     res.render('login');
+});
+
+app.get('/login',(req,res)=>{
+    res.render('login');
+});
+
+app.post('/login',(req,res)=>{
+    if(req.session.isAuth)return res.redirect('/home');
+    var u = req.body;
+
+    MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
+    if (err) throw err;
+
+    const db = client.db('UsersDB');
+    const users = db.collection('users');
+
+    var x = await users.findOne({username: u.username});
+    if(x && x.username ==u.username && x.password==u.password){
+        req.session.isAuth = true;
+        req.session.un = u.username;
+        res.redirect('/home');
+    }
+    else{
+        res.redirect('/login')
+        //DISPLAY ERROR MESSAGE
+    }
+    
+    } );
 });
 
 app.get('/registration',(req,res)=>{
@@ -28,36 +71,36 @@ app.get('/registration',(req,res)=>{
 });
 
 app.get('/home', (req,res)=>{
-    res.render('home');
+    if(req.session.isAuth)res.render('home');
+    else res.redirect('/login');
 });
 
 app.post('/register',(req,res)=>{
     var u = req.body;
 
-    MongoClient.connect("mongodb://localhost:27017", function (err, client) {
+    MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
     if (err) throw err;
 
     const db = client.db('UsersDB');
     const users = db.collection('users');
 
-    users.find().toArray((err, results) => {
-        var bool = true;
-        for (let i = 0; i < results.length; i++) {
-            if(results[i].username==u.username)bool=false;
-        }
-        if(bool){
-            users.insertOne({username: u.username, password: u.password});
-            res.redirect('/home');
-        }
-        else res.redirect('/registration');
-      });
+    var x = await users.findOne({username: u.username});
+    if(x){
+        res.redirect('/registration');
+        //DISPLAY ERROR MESSAGE
+    }
+    else{
+        users.insertOne({username: u.username, password: u.password});
+        res.redirect('/login');
+    }
     
      });
     
 });
 
 
-
+// async and await ? 
+// clean up
 
 
 
