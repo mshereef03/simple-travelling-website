@@ -85,7 +85,7 @@ app.post('/register',(req,res)=>{
         res.render('registration',{err: 'Please enter a valid username and password'});
     }
     else{
-        users.insertOne({username: u.username, password: u.password});
+        users.insertOne({username: u.username, password: u.password, wantList: []});
         res.render('login',{msg: 'Registration was succesful!' });
     }
     
@@ -98,7 +98,261 @@ app.get('/home', (req,res)=>{
     else res.redirect('/login');
 });
 
+app.get('/islands', (req,res)=>{
+    if(req.session.isAuth)res.render('islands');
+    else res.redirect('/login');
+});
 
+app.get('/cities', (req,res)=>{
+    if(req.session.isAuth)res.render('cities');
+    else res.redirect('/login');
+});
+
+app.get('/hiking', (req,res)=>{
+    if(req.session.isAuth)res.render('hiking');
+    else res.redirect('/login');
+});
+
+app.get('/bali', (req,res)=>{
+    if(req.session.isAuth)res.render('bali');
+    else res.redirect('/login');
+});
+
+app.get('/annapurna', (req,res)=>{
+    if(req.session.isAuth)res.render('annapurna');
+    else res.redirect('/login');
+});
+
+app.get('/inca', (req,res)=>{
+    if(req.session.isAuth)res.render('inca');
+    else res.redirect('/login');
+});
+
+app.get('/paris', (req,res)=>{
+    if(req.session.isAuth)res.render('paris');
+    else res.redirect('/login');
+});
+
+app.get('/rome', (req,res)=>{
+    if(req.session.isAuth)res.render('rome');
+    else res.redirect('/login');
+});
+
+app.get('/santorini', (req,res)=>{
+    if(req.session.isAuth)res.render('santorini');
+    else res.redirect('/login');
+});
+
+app.post('/addParis',(req,res)=>{
+    if(!req.session.isAuth)res.redirect('/login');
+    else {
+        var un = req.session.un;
+
+        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
+    if (err) throw err;
+
+    const db = client.db('UsersDB');
+    const users = db.collection('users');
+
+    
+    var x = await users.findOne({username: un});
+    var list = x.wantList;
+    if(list.includes('paris')){
+        res.render('paris',{err: 'Paris is already in your to go list !'})
+    }
+    else{
+        list.push('paris');
+    
+        users.updateOne({username: un },{ $set: {wantList: list} },function(err, res1) {
+        if (err) throw err;
+        console.log("1 document updated");
+        res.render('paris',{msg: 'Paris added !'});
+      });
+    }
+    
+    
+     });
+    }
+});
+
+app.post('/addRome',(req,res)=>{
+    if(!req.session.isAuth)res.redirect('/login');
+    else {
+        var un = req.session.un;
+
+        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
+    if (err) throw err;
+
+    const db = client.db('UsersDB');
+    const users = db.collection('users');
+
+    
+    var x = await users.findOne({username: un});
+    var list = x.wantList;
+    if(list.includes('rome')){
+        res.render('rome',{err: 'Rome is already in your to go list !'})
+    }
+    else{
+        list.push('rome');
+    
+        users.updateOne({username: un },{ $set: {wantList: list} },function(err, res1) {
+        if (err) throw err;
+        console.log("1 document updated");
+        res.render('rome',{msg: 'Rome added !'});
+      });
+    }
+    
+    
+     });
+    }
+});
+
+app.post('/addAnnapurna',(req,res)=>{
+    if(!req.session.isAuth)res.redirect('/login');
+    else {
+        var un = req.session.un;
+
+        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
+    if (err) throw err;
+
+    const db = client.db('UsersDB');
+    const users = db.collection('users');
+
+    
+    var x = await users.findOne({username: un});
+    var list = x.wantList;
+    if(list.includes('annapurna')){
+        res.render('annapurna',{err: 'Annapurna is already in your to go list !'})
+    }
+    else{
+        list.push('annapurna');
+    
+        users.updateOne({username: un },{ $set: {wantList: list} },function(err, res1) {
+        if (err) throw err;
+        console.log("1 document updated");
+        res.render('annapurna',{msg: 'Annapurna added !'});
+      });
+    }
+    
+    
+     });
+    }
+});
+
+app.post('/addInca',(req,res)=>{
+    if(!req.session.isAuth)res.redirect('/login');
+    else {
+        var un = req.session.un;
+
+        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
+    if (err) throw err;
+
+    const db = client.db('UsersDB');
+    const users = db.collection('users');
+
+    
+    var x = await users.findOne({username: un});
+    var list = x.wantList;
+    if(list.includes('inca')){
+        res.render('inca',{err: 'Inca is already in your to go list !'})
+    }
+    else{
+        list.push('inca');
+    
+        users.updateOne({username: un },{ $set: {wantList: list} },function(err, res1) {
+        if (err) throw err;
+        console.log("1 document updated");
+        res.render('inca',{msg: 'Inca added !'});
+      });
+    }
+    
+    
+     });
+    }
+});
+
+app.post('/addBali',(req,res)=>{
+    if(!req.session.isAuth)res.redirect('/login');
+    else {
+        var un = req.session.un;
+
+        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
+    if (err) throw err;
+
+    const db = client.db('UsersDB');
+    const users = db.collection('users');
+
+    
+    var x = await users.findOne({username: un});
+    var list = x.wantList;
+    if(list.includes('bali')){
+        res.render('bali',{err: 'Bali is already in your to go list !'})
+    }
+    else{
+        list.push('bali');
+    
+        users.updateOne({username: un },{ $set: {wantList: list} },function(err, res1) {
+        if (err) throw err;
+        console.log("1 document updated");
+        res.render('bali',{msg: 'Bali added !'});
+      });
+    }
+    
+    
+     });
+    }
+});
+
+app.post('/addSantorini',(req,res)=>{
+    if(!req.session.isAuth)res.redirect('/login');
+    else {
+        var un = req.session.un;
+
+        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
+    if (err) throw err;
+
+    const db = client.db('UsersDB');
+    const users = db.collection('users');
+
+    
+    var x = await users.findOne({username: un});
+    var list = x.wantList;
+    if(list.includes('santorini')){
+        res.render('santorini',{err: 'Santorini is already in your to go list !'})
+    }
+    else{
+        list.push('santorini');
+    
+        users.updateOne({username: un },{ $set: {wantList: list} },function(err, res1) {
+        if (err) throw err;
+        console.log("1 document updated");
+        res.render('santorini',{msg: 'Santorini added !'});
+      });
+    }
+    
+    
+     });
+    }
+});
+
+app.get('/wanttogo',(req,res)=>{
+    if(req.session.isAuth){
+        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
+            if (err) throw err;
+        
+            const db = client.db('UsersDB');
+            const users = db.collection('users');
+            var un = req.session.un;
+            
+            var x = await users.findOne({username: un});
+            var list = x.wantList;
+            res.render('wanttogo',{list: list});
+            
+            
+             });
+    }
+    else res.redirect('/login');
+});
 // async and await ? 
 // clean up
 

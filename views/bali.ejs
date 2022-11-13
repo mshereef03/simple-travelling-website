@@ -27,6 +27,18 @@
             text-align: justify;
             text-justify: inter-word;
         }
+        .success{
+            color: green;
+            text-align: center;
+            line-height: 80px;
+            font-size: 18px;
+        }
+        .fail{
+            color: red;
+            text-align: center;
+            line-height: 80px;
+            font-size: 18px;
+        }
         .video {
             position: fixed;
             left: 700px;
@@ -77,14 +89,20 @@
         Also known as the Land of the Gods, Bali appeals through its sheer natural beauty of looming volcanoes and lush terraced rice fields that exude peace and serenity. It is also famous for surfers' paradise.
     </div>
     <div class="wanttogo">
-        <button id="wanttogo" class="btn btn-secondary ml-3">Add to Want-to-Go List</button>
+        <form method='post' action='/addBali'>
+            <input type="submit" id="simple_click" class="btn btn-secondary" value="Add to Want-To-Go List"> <br>
+        </form>
     </div>
     <div class="video">
-        <video width="480" height="360" controls>
-            <source src="/bali.mp4">
-        </video>
+        <iframe width="480" height="360" src="https://www.youtube.com/embed/BFS9n4B_2xA" title="Bali in 8k ULTRA HD HDR -  Paradise of Asia (60 FPS)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 
 </body>
+<% if (locals.msg) { %>
+    <p class="success"><%= msg %></p>
+<% } %>
+<% if (locals.err) { %>
+    <p class="fail"><%= err %></p>
+<% } %>
 
 </html>
