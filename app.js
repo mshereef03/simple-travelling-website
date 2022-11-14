@@ -8,7 +8,9 @@ const MongoDBSession = require('connect-mongodb-session')(session);
 
 // express app
 const app = express();
-app.listen(3000);
+if(process.env.PORT)app.listen(process.env.PORT);
+else app.listen(3000);
+
 
 // connect to MongoDB 
  var MongoClient = require('mongodb').MongoClient;   
