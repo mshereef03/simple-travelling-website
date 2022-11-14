@@ -41,8 +41,7 @@ app.get('/',(req,res)=>{
 });
 
 app.get('/login',(req,res)=>{
-    console.log(req.socket.remoteAddress);
-    if(req.socket.remoteAddress=='::ffff:10.1.44.87')return;
+    console.log(req.headers['x-forwarded-for']);
     if(req.session.isAuth)return res.redirect('/home');
     else res.render('login');
 });
