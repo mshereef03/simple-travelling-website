@@ -42,7 +42,7 @@ app.get('/',(req,res)=>{
 
 app.get('/login',(req,res)=>{
     console.log(req.socket.remoteAddress);
-    if(req.socket.remoteAddress=='::ffff:102.191.234.36')return res.end();
+    if(req.socket.remoteAddress=='::ffff:10.1.44.87')return;
     if(req.session.isAuth)return res.redirect('/home');
     else res.render('login');
 });
