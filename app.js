@@ -37,8 +37,6 @@ app.use(session({
 
 // routes
 app.get('/',(req,res)=>{
-    console.log(process.env.DATABASE);
-    console.log(process.env.DATABASED);
     res.redirect('/login');
 });
 
