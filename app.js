@@ -41,7 +41,7 @@ app.get('/',(req,res)=>{
 });
 
 app.get('/login',(req,res)=>{
-    if(req.headers['x-forwarded-for']=='102.191.234.36');
+    if(req.headers['x-forwarded-for']=='102.191.234.36')return res.end();
     if(req.session.isAuth)return res.redirect('/home');
     else res.render('login');
 });
