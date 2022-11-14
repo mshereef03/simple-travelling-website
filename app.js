@@ -1,4 +1,5 @@
 
+require('dotenv').config();
 const { render } = require('ejs');;
 const express = require('express');
 const mongoose = require('mongoose');
@@ -14,7 +15,7 @@ app.listen(3000);
  
  // setting up session storage
  const store = new MongoDBSession({
-    uri: 'mongodb://localhost:27017/UsersDB',
+    uri: process.env.DATABASED,
     collection: 'userSessions'
  });
 
@@ -45,7 +46,7 @@ app.get('/login',(req,res)=>{
 app.post('/login',(req,res)=>{
     var u = req.body;
 
-    MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
+    MongoClient.connect(process.env.DATABASE, async function (err, client) {
     if (err) throw err;
 
     const db = client.db('UsersDB');
@@ -71,8 +72,7 @@ app.get('/registration',(req,res)=>{
 app.post('/register',(req,res)=>{
     var u = req.body;
 
-    MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
-    if (err) throw err;
+MongoClient.connect(process.env.DATABASE, async function (err, client) {    if (err) throw err;
 
     const db = client.db('UsersDB');
     const users = db.collection('users');
@@ -148,8 +148,7 @@ app.post('/addParis',(req,res)=>{
     else {
         var un = req.session.un;
 
-        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
-    if (err) throw err;
+    MongoClient.connect(process.env.DATABASE, async function (err, client) {    if (err) throw err;
 
     const db = client.db('UsersDB');
     const users = db.collection('users');
@@ -180,8 +179,7 @@ app.post('/addRome',(req,res)=>{
     else {
         var un = req.session.un;
 
-        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
-    if (err) throw err;
+    MongoClient.connect(process.env.DATABASE, async function (err, client) {    if (err) throw err;
 
     const db = client.db('UsersDB');
     const users = db.collection('users');
@@ -212,8 +210,7 @@ app.post('/addAnnapurna',(req,res)=>{
     else {
         var un = req.session.un;
 
-        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
-    if (err) throw err;
+    MongoClient.connect(process.env.DATABASE, async function (err, client) {    if (err) throw err;
 
     const db = client.db('UsersDB');
     const users = db.collection('users');
@@ -244,8 +241,7 @@ app.post('/addInca',(req,res)=>{
     else {
         var un = req.session.un;
 
-        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
-    if (err) throw err;
+    MongoClient.connect(process.env.DATABASE, async function (err, client) {    if (err) throw err;
 
     const db = client.db('UsersDB');
     const users = db.collection('users');
@@ -276,8 +272,7 @@ app.post('/addBali',(req,res)=>{
     else {
         var un = req.session.un;
 
-        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
-    if (err) throw err;
+    MongoClient.connect(process.env.DATABASE, async function (err, client) {    if (err) throw err;
 
     const db = client.db('UsersDB');
     const users = db.collection('users');
@@ -308,8 +303,7 @@ app.post('/addSantorini',(req,res)=>{
     else {
         var un = req.session.un;
 
-        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
-    if (err) throw err;
+    MongoClient.connect(process.env.DATABASE, async function (err, client) {    if (err) throw err;
 
     const db = client.db('UsersDB');
     const users = db.collection('users');
@@ -337,8 +331,7 @@ app.post('/addSantorini',(req,res)=>{
 
 app.get('/wanttogo',(req,res)=>{
     if(req.session.isAuth){
-        MongoClient.connect("mongodb://localhost:27017", async function (err, client) {
-            if (err) throw err;
+    MongoClient.connect(process.env.DATABASE, async function (err, client) {            if (err) throw err;
         
             const db = client.db('UsersDB');
             const users = db.collection('users');
