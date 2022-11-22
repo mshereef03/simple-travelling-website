@@ -1,4 +1,3 @@
-
 if(!process.env.DEPLOYED)require('dotenv').config();
 const { render } = require('ejs');;
 const express = require('express');
