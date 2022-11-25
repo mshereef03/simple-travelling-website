@@ -363,6 +363,11 @@ app.post('/search',(req,res)=>{
     res.render('searchresults',{list: list, err: 'Destination was not found !'});
 });
 
+app.get('/signout',(req,res)=>{
+    req.session.destroy();
+    res.redirect('/login');
+});
+
 // async and await ? 
 // clean up
 
