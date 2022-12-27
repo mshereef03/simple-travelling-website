@@ -9,7 +9,9 @@ const MongoDBSession = require('connect-mongodb-session')(session);
 // express app
 const app = express();
 if(process.env.PORT)app.listen(process.env.PORT);
-else app.listen(3000);
+else app.listen(3000, () => {
+    console.log('App listening on port 3000 !');
+  });
 
 // connect to MongoDB 
  var MongoClient = require('mongodb').MongoClient;   
@@ -40,6 +42,8 @@ app.get('/',(req,res)=>{
 });
 
 app.get('/login',(req,res)=>{
+    console.log('IP: '+req.ip);
+    console.log('Actual IP: '+req.headers['x-forwarded-for']);
     if(req.headers['x-forwarded-for']=='102.191.234.36')return res.end();
     if(req.session.isAuth)return res.redirect('/home');
     else res.render('login');
